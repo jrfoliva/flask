@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% block title%}
+    Excluindo Cliente
+{% endblock %}
+{% block content %}
+  <div style="width: 95%; margin: 10px auto 10px;">
+    <form method="POST" action="{{url_for('excluirCliente')}}"> 
+      <fieldset>
+        <legend style="text-align:center; background: dodgerblue; color: #fff;"><strong>Exclusão de Cliente</strong></legend>
+        <div>
+            {% for msg in get_flashed_messages() %}
+                {% if exibeSucesso == False %}
+                    <div class="alert alert-warning fade show" role="alert">
+                        {{msg}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% else  %}
+                    <div class="alert alert-success fade show" role="alert">
+                        {{msg}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="nome">Nome</label>
+                <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome do cliente..."
+                       value={{cliente['nome']}} required >
+          </div>
+          <div class="form-group col-md-2">
+            <label for="rg">RG</label>
+              <input type="text" class="form-control" id="rg" name="rg" maxlength="12" value={{cliente['rg']}} required />
+          </div>
+          <div class="form-group col-md-2">
+            <label for="cpf">CPF</label>
+              <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" value={{cliente['cpf']}} onkeyup="mCpf()" />
+          </div>
+          <div class="form-group col-md-2">
+            <label for="dtNasc">Nascimento</label>
+              <input type="date" class="form-control" name="dtNasc" id="dtNasc" value={{cliente['dataNasc']}} required />
+          </div>
+          <div class="form-group col-md-2">
+            <label for="cep" style="color:blue;">CEP (Auto Busca)</label>
+              <input type="text" class="form-control" id="cep" name="cep" maxlength="9" value={{cliente['cep']}} 
+              onkeyup="mascara('#####-###', this, event)" required />
+          </div>
+          <div class="form-group col-md-4">
+            <label for="logradouro">Rua</label>
+            <input type="text" class="form-control" id="logradouro" name="logradouro" value={{cliente['rua']}} required />
+          </div>
+          <div class="form-group col-md-2">
+            <label for="numero">Número</label>
+              <input type="number" class="form-control" id="numero" name="numero" min="0" max="9999" value={{cliente['num']}} />
+          </div>
+          <div class="form-group col-md-4">
+            <label for="complemento">Complemento</label>
+               <input type="text" class="form-control" id="complemento" name="complemento" value={{cliente['complemento']}} >
+          </div>
+          <div class="form-group col-md-4">
+            <label for="bairro">Bairro</label>
+            <input type="text" class="form-control" id="bairro" name="bairro" value={{cliente['bairro']}} required /> 
+          </div>
+          <div class="form-group col-md-4">
+            <label for="cidade">Cidade</label>
+            <input type="text" class="form-control" id="cidade" name="cidade" required value={{cliente['cidade']}} />
+          </div>
+          <div class="form-group col-md-4">
+            <label for="uf">Estado</label>
+            <select class="form-control" id="uf" name="uf">
+              <option selected >{{cliente['estado']}}</option>
+              <option value="AC">Acre</option>
+              <option value="AL">Alagoas</option>
+              <option value="AP">Amapá</option>
+              <option value="AM">Amazonas</option>
+              <option value="BA">Bahia</option>
+              <option value="CE">Ceará</option>
+              <option value="DF">Distrito Federal</option>
+              <option value="ES">Espírito Santo</option>
+              <option value="GO">Goiás</option>
+              <option value="MA">Maranhão</option>
+              <option value="MT">Mato Grosso</option>
+              <option value="MS">Mato Grosso do Sul</option>
+              <option value="MG">Minas Gerais</option>
+              <option value="PA">Pará</option>
+              <option value="PB">Paraíba</option>
+              <option value="PR">Paraná</option>
+              <option value="PE">Pernambuco</option>
+              <option value="PI">Piauí</option>
+              <option value="RJ">Rio de Janeiro</option>
+              <option value="RN">Rio Grande do Norte</option>
+              <option value="RS">Rio Grande do Sul</option>
+              <option value="RO">Rondônia</option>
+              <option value="RR">Roraima</option>
+              <option value="SC">Santa Catarina</option>
+              <option value="SP">São Paulo</option>
+              <option value="SE">Sergipe</option>
+              <option value="TO">Tocantins</option>
+            </select>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="telefone">Telefone</label>
+              <input type="tel" class="form-control" id="telefone" name="telefone"
+                placeholder="(99) 99999-9999" maxlength="14" 
+                onkeyup="mTel()" value={{cliente['telefone']}} required />
+          </div>
+          <div class="form-group col-md-4">
+            <label for="email">Email</label>
+              <input type="email" class="form-control" id="email" name="email" value={{cliente['email']}} />
+          </div>
+          <div class="form-group col-md-4"></div>
+          <div class="form-group col-md-4"></div>
+        </div>
+        <div>
+          <button type="submit" class="btn btn-danger">Excluir</button>
+          
+          <a href={{url_for('cadClientes')}}>
+            <button type="button" class="btn btn-secundary">Voltar</button>
+          </a>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+<script type="text/javascript">
+    $("#cep").focusout(function(){
+      //Início do Comando AJAX
+      $.ajax({
+        //O campo URL diz o caminho de onde virá os dados
+        //É importante concatenar o valor digitado no CEP
+        url: 'https://viacep.com.br/ws/'+$(this).val()+'/json/unicode/',
+        //Aqui você deve preencher o tipo de dados que será lido,
+        //no caso, estamos lendo JSON.
+        dataType: 'json',
+        //SUCESS é referente a função que será executada caso
+        //ele consiga ler a fonte de dados com sucesso.
+        //O parâmetro dentro da função se refere ao nome da variável
+        //que você vai dar para ler esse objeto.
+        success: function(resposta){
+          //Agora basta definir os valores que você deseja preencher
+          //automaticamente nos campos acima.
+          $("#logradouro").val(resposta.logradouro);
+          $("#complemento").val(resposta.complemento);
+          $("#bairro").val(resposta.bairro);
+          $("#cidade").val(resposta.localidade);
+          $("#uf").val(resposta.uf);
+          //Vamos incluir para que o Número seja focado automaticamente
+          //melhorando a experiência do usuário
+          $("#numero").focus();
+        }
+      });
+    });
+  </script>
+{% endblock %}

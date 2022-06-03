@@ -1,0 +1,103 @@
+{% extends 'base.html'%}
+{% block title %}
+    Definição de Perfil
+{% endblock %}
+{% block content %}
+  <div style="width: 95%; margin: 10px auto 10px;">
+    <form method="POST" action="{{url_for('perfil')}}">
+      <div>
+        {% for msg in get_flashed_messages() %}
+          {% if exibeSucesso == False %}
+            <div class="alert alert-warning fade show" role="alert">
+                {{msg}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+          {% else  %}
+            <div class="alert alert-success fade show" role="alert">
+              {{msg}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <fieldset>
+        <legend style="text-align:center; background: dodgerblue; color: #fff;"><strong>Definição de perfil</strong></legend>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="perfil">Descrição do Perfil:</label>
+                {% if perfil %}
+                    <input type="text" class="form-control" id="perfil" name="perfil" value="{{perfil.perfil}}" required>
+                {% else %}
+                    <input type="text" class="form-control" id="perfil" name="perfil" required>
+                {% endif %}
+            </div>
+      </fieldset>
+      <fieldset style="border: solid 1px silver; border-radius: 3px; padding-top: 20px;" >
+          <legend>Privilégios do Perfil</legend>
+            <div class="form-group col-md-6">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="consultar" name="consultar" value="1">
+                    <label class="form-check-label" for="consultar">Pode Consultar?</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="incluir" name="incluir" value="1">
+                    <label class="form-check-label" for="incluir">Pode Incluir?</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="alterar" name="alterar" value="1">
+                    <label class="form-check-label" for="alterar">Pode Alterar?</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="excluir" name="excluir" value="1">
+                    <label class="form-check-label" for="excluir">Pode Excluir?</label>
+                </div>
+            </div>
+      </fieldset>
+            <div style="height: 50px;"></div>
+            <div>
+                <button type="submit" class="btn btn-success">Cadastrar</button>
+                <button type="reset" class="btn btn-danger">Cancelar</button>
+            </div>
+        </div>
+    </form>
+  </div>
+
+<div style="width: 95%; margin: 10px auto 10px;"><hr></div><br>
+<div style="text-align:center"><h4><span class="badge badge-secondary"> Perfis Cadastrados </span></h4></div>
+<div style="margin: 20px">
+    <table class="table table-striped table-hover">
+        <caption>Lista de Perfis</caption>
+        <thead>
+            <tr>
+                <th scope="col">Perfil</th>
+                <th scope="col">Consultar</th>
+                <th scope="col">Incluir</th>
+                <th scope="col">Alterar</th>
+                <th scope="col">Excluir</th>
+            </tr>
+        </thead>
+            <tbody>
+                {% for perfil in listaDePerfil %}
+                    <tr>
+                        <td>{{perfil.perfil}}</td>
+                        <td>{{perfil.consultar}}</td>
+                        <td>{{perfil.incluir}}</td>
+                        <td>{{perfil.alterar}}</td>
+                        <td>{{perfil.excluir}}</td>
+                        <td><a href="#">
+                              <img alt="Ícone de atualização" src="/static/img/update.png" width="20" height="20"> 
+                            </a>
+                            <a href="#">
+                              <img alt="Ícone de exclusão" src="/static/img/delete.png" width="20" height="20">
+                            </a>
+                          </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+    </table>
+</div>
+{% endblock %}

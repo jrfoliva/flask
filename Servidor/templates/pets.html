@@ -1,0 +1,160 @@
+{% extends 'base.html'%}
+{% block title %}
+    Cadastro de Pet
+{% endblock %}
+{% block content %}
+  <div style="width: 95%; margin: 10px auto 10px;">
+    <form method="POST" action="{{url_for('cadPets')}}">
+      <div>
+        {% for msg in get_flashed_messages() %}
+          {% if exibeSucesso == False %}
+            <div class="alert alert-warning fade show" role="alert">
+                {{msg}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+          {% else  %}
+            <div class="alert alert-success fade show" role="alert">
+              {{msg}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <fieldset>
+        <legend style="text-align:center; background: dodgerblue; color: #fff;"><strong>Cadastro de Pet</strong></legend>
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label for="codigoPet">Códgio:</label>
+            <input type="text" class="form-control" id="codigoPet" name="codigoPet" disabled>
+          </div>
+          <div class="form-group col-md-4">
+              <label for="nomePet">Nome do Pet:</label>
+              {% if novoPet %}
+                <input type="text" class="form-control" id="nomePet" name="nomePet" required value={{novoPet['nomePet']}}>
+              {% else %}
+                <input type="text" class="form-control" id="nomePet" name="nomePet" required value="">
+              {% endif %}
+          </div>
+          <div class="form-group col-md-2">
+            <label for="especiePet">Espécie: </label>
+            {% if novoPet %}
+              <select class="form-control" id="especiePet" name="especiePet">
+                <option selected>{{novoPet['especiePet']}}</option>
+                <option value="ave">Ave</option>
+                <option value="bovina">Bovina</option>
+                <option value="canina">Canina</option>
+                <option value="equina">Equina</option>
+                <option value="felina">Felina</option>
+              </select>
+            {% else %}
+              <select class="form-control" id="especiePet" name="especiePet">
+                <option selected>Canina</option>
+                <option value="ave">Ave</option>
+                <option value="bovina">Bovina</option>
+                <option value="canina">Canina</option>
+                <option value="equina">Equina</option>
+                <option value="felina">Felina</option>
+              </select>
+            {% endif %}
+          </div>
+          <div class="form-group col-md-2">
+            <label for="racaPet">Raça:</label>
+            {% if novoPet %}
+              <input type="text" class="form-control" name="racaPet" id="racaPet" value={{novoPet['racaPet']}} />
+            {% else %}
+              <input type="text" class="form-control" name="racaPet" id="racaPet" required />
+            {% endif %}
+          </div>
+          <div class="form-group col-md-2">
+            <label for="corPet">Cor:</label>
+            {% if novoPet %}
+              <input type="text" class="form-control" name="corPet" id="corPet" value={{novoPet['corPet']}} />
+            {% else %}
+              <input type="text" class="form-control" name="corPet" id="corPet" required />
+            {% endif %}
+          </div>
+
+          <div class="form-group col-md-2">
+            <label for="dataNascPet">Data Nasc.:</label>
+            {% if novoPet %}
+              <input type="date" class="form-control" id="dataNascPet" name="dataNascPet" value={{novoPet['dataNascPet']}} />
+            {% else %}
+              <input type="date" class="form-control" id="dataNascPet" name="dataNascPet" required />
+            {% endif%}
+          </div>
+
+          <div class="form-group col-md-2">
+            <label for="numMicroChipPet">Nº. Micro Chip:</label>
+            {% if novoPet %}
+              <input type="text" class="form-control" name="numMicroChipPet" id="numMicroChipPet" value={{novoPet['numMicroChipPet']}} />
+            {% else %}
+              <input type="text" class="form-control" name="numMicroChipPet" id="numMicroChipPet" />
+            {% endif%}
+          </div>
+
+          <div class="form-group col-md-2">
+            <label for="rgaPet">R.G.A:</label>
+            {% if novoPet %}
+              <input type="text" class="form-control" id="rgaPet" name="rgaPet" value={{novoPet['rgaPet']}} />
+            {% else %}
+              <input type="text" class="form-control" id="rgaPet" name="rgaPet" required />
+            {% endif %}
+          </div>
+
+          <div class="form-group col-md-6"></div>
+
+          <div>
+            <button type="submit" class="btn btn-success">Cadastrar</button>
+            <button type="reset" class="btn btn-danger">Cancelar</button>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+
+<div><hr></div><br>
+<div style="text-align:center"><h4><span class="badge badge-secondary"> Animais Cadastrados </span></h4></div>
+<div style="margin: 20px">
+    <table class="table table-striped table-hover">
+        <caption>Lista de Animais</caption>
+        <thead>
+            <tr>
+                <th scope="col">Códgio</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Espécie</th>
+                <th scope="col">Raça</th>
+                <th scope="col">Cor</th>
+                <th scope="col">Dt. Nasc.</th>
+                <th scope="col">Num. Chip</th>
+                <th scope="col">R.G.A.</th>
+                <th scope="col">Ações</th>
+            </tr>
+        </thead>
+            <tbody>
+                {% for pet in listaDePets %}
+                    <tr>
+                        <td>{{pet.codigo}}</td>
+                        <td>{{pet.nome}}</td>
+                        <td>{{pet.especie}}</td>
+                        <td>{{pet.raca}}</td>
+                        <td>{{pet.cor}}</td>
+                        <td>{{pet.dataNasc}}</td>
+                        <td>{{pet.numMicroChip}}</td>
+                        <td>{{pet.rga}}</td>
+                        <td><a href={{url_for('atualizarPet', id=pet.codigo)}}>
+                              <img alt="Ícone de atualização" src="/static/img/update.png" width="20" height="20"> 
+                            </a>
+                            <a href={{url_for('excluirPet', id=pet.codigo)}}>
+                              <img alt="Ícone de exclusão" src="/static/img/delete.png" width="20" height="20">
+                            </a>
+                          </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+    </table>
+</div>
+{% endblock %}

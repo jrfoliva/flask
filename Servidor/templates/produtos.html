@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title%}
+    Cadastro de Produtos
+{% endblock %}
+{% block content %}
+<div style="width: 95%; margin: 10px auto 10px;">
+    <form method="POST" action="{{url_for('cadProdutos')}}"> 
+      <fieldset>
+        <legend style="text-align:center; background: dodgerblue; color: #fff;"><strong>Informações do Produto</strong></legend>
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label for="codigo">Código </label>
+                <input type="number" class="form-control" id="codigo" name="codigo" placeholder="000000" readonly>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="ean">Código de Barras:</label>
+                <input type="number" class="form-control" id="ean" name="ean" maxlength="13" placeholder="7896018703704" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="desc">Descrição</label>
+                <input type="text" class="form-control" id="desc" name="desc" placeholder="Digite a descrição do produto" maxlength="60" required>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="categoria">Categoria</label>
+                <select class="form-control"name="categoria" id="catergoria" required>
+                    <option value="">...</option>
+                    <option value="RAÇÕES">RAÇÕES</option>
+                    <option value="ACESSÓRIOS">ACESSÓRIOS</option>
+                    <option value="PERFUMARIA">PERFUMARIA</option>
+                    <option value="MEDICAMENTOS">MEDICAMENTOS</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="saldo">Saldo</label>
+                <input type="number" class="form-control" id="saldo" name="saldo" min="0" max="999" readonly>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="custo">Preço de Custo</label>
+                <input type="text" class="form-control" id="custo" name="custo" readonly>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="mglucro">Margem de Lucro %</label>
+                <input type="text" class="form-control" id="mglucro" name="mglucro">
+            </div>
+            <div class="form-group col-md-2">
+                <label for="venda">Preço de Venda</label>
+                <input type="text" class="form-control" id="venda" name="venda" readonly> 
+            </div>
+            <div class="form-group col-md-2">
+                <label for="dtUltCompra">Ultima Compra</label>
+                <input type="date" class="form-control" id="dtUltCompra" name="dtUltimaCompra" readonly>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="dtUltVenda">Ultima Venda</label>
+                <input type="date" class="form-control" id="dtUltVenda" name="dtUltimaCompra" readonly>
+            </div>
+        </div>
+      </fieldset>
+            <div>
+                <button type="submit" class="btn btn-success">Cadastrar</button>
+                <button type="reset" class="btn btn-danger">Cancelar</button>
+            </div>
+      </fieldset>
+    </form>
+  </div>
+{% endblock %}
+

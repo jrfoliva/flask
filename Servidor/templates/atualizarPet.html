@@ -1,0 +1,86 @@
+{% extends 'base.html'%}
+{% block title %}
+    Atualizando Pet
+{% endblock %}
+{% block content %}
+<div style="width: 95%; margin: 10px auto 10px;">
+    <form method="POST" action="{{url_for('atualizarPet', id=pet.codigo)}}">
+      <div>
+        {% for msg in get_flashed_messages() %}
+          {% if exibeSucesso == False %}
+            <div class="alert alert-warning fade show" role="alert">
+                {{msg}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+          {% else %}
+            <div class="alert alert-success fade show" role="alert">
+              {{msg}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <fieldset>
+        <legend style="text-align:center; background: dodgerblue; color: #fff;"><strong>Atualização de Pet</strong></legend>
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label for="codigoPet">Códgio:</label>
+            <input type="text" class="form-control" id="codigoPet" name="codigoPet"  value={{ pet['codigo'] }} disabled />
+          </div>
+          <div class="form-group col-md-4">
+              <label for="nomePet">Nome do Pet:</label>
+              <input type="text" class="form-control" id="nomePet" name="nomePet" value={{ pet['nome'] }} />
+          </div>
+          <div class="form-group col-md-2">
+            <label for="especiePet">Espécie: </label>
+            <select class="form-control" id="especiePet" name="especiePet">
+                <option selected>{{ pet['especie'] }}</option>
+                <option value="ave">Ave</option>
+                <option value="bovina">Bovina</option>
+                <option value="canina">Canina</option>
+                <option value="equina">Equina</option>
+                <option value="felina">Felina</option>
+              </select>
+          </div>
+          <div class="form-group col-md-2">
+                <label for="racaPet">Raça:</label>
+                <input type="text" class="form-control" name="racaPet" id="racaPet" value={{ pet['raca'] }} />
+          </div>
+          <div class="form-group col-md-2">
+              <label for="corPet">Cor:</label>
+              <input type="text" class="form-control" name="corPet" id="corPet" value={{ pet['cor'] }} />
+          </div>
+
+          <div class="form-group col-md-2">
+                <label for="dataNascPet">Data Nasc.:</label>
+                <input type="date" class="form-control" id="dataNascPet" name="dataNascPet" value={{ pet['dataNasc'] }} />
+            </div>
+
+          <div class="form-group col-md-2">
+              <label for="numMicroChipPet">Nº. Micro Chip:</label>
+              <input type="text" class="form-control" name="numMicroChipPet" id="numMicroChipPet" value={{ pet['numMicroChip'] }} />
+            </div>
+
+          <div class="form-group col-md-2">
+                <label for="rgaPet">R.G.A:</label>
+                <input type="text" class="form-control" id="rgaPet" name="rgaPet" value={{ pet['rga'] }} />
+          </div>
+
+          <div class="form-group col-md-6"></div>
+
+          <div>
+                <button type="submit" class="btn btn-success">Atualizar</button>
+                <a href={{url_for('cadPets')}}>
+                    <button type="button" class="btn btn-secundary">Voltar</button>
+                </a>
+
+            </div>
+        </div>    
+      </fieldset>
+    </form>
+</div>
+{% endblock %}
